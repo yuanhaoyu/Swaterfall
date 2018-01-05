@@ -6,7 +6,7 @@ class Swaterfall{
         this.templates = config.templates;
     }
     _combine() {
-        if (this._index >= data.length) {
+        if (this._index >= this.data.length) {
             return false;
         } else {
             let img = new Image();
@@ -14,7 +14,6 @@ class Swaterfall{
             img.onload = () => {
                 setTimeout(() => {
                     let minDom = this._getMinFromDoms(this.boxLists);
-                    console.log(this.templates[this._index])
                     minDom.appendChild(this.templates[this._index]);
                     this._index ++;
                     return this._combine();
