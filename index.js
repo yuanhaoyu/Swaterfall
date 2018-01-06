@@ -1,9 +1,10 @@
 class Swaterfall{
-    constructor (data, config) {
+    constructor (config) {
+        this._version = 0.01;
         this._index = 0;
-        this.data = data;
+        this.data = null;
         this.boxLists = config.boxs;
-        this.template = config.template;
+        this.template = config.template;    
     }
     _combine() {
         if (this._index >= this.data.length) {
@@ -36,10 +37,7 @@ class Swaterfall{
         return temp.children[0];
         // remember children childNode diff
     }
-    init() {
-        this._combine();
-    }
-    add(data) {      
+    add(data) {
         this.data = data;
         this._index = 0;
         this._combine();
