@@ -3,7 +3,7 @@ class Swaterfall{
         this._index = 0;
         this.data = data;
         this.boxLists = config.boxs;
-        this.templates = config.templates;
+        this.template = config.template;
     }
     _combine() {
         if (this._index >= this.data.length) {
@@ -14,7 +14,7 @@ class Swaterfall{
             img.onload = () => {
                 setTimeout(() => {
                     let minDom = this._getMinFromDoms(this.boxLists);
-                    minDom.appendChild(this.templates[this._index]);
+                    minDom.appendChild(this._createElement(this.template, this.data[this._index]));
                     this._index ++;
                     return this._combine();
                 }, 0)
@@ -30,11 +30,16 @@ class Swaterfall{
         }
         return min;
     }
+    _createElement(template, data) {
+        let temp = document.createElement('div');
+        temp.innerHTML = template(data);
+        return temp.children[0];
+        // remember children childNode diff
+    }
     init() {
         this._combine();
     }
-    add(data, templates) {
-        this.templates = templates;        
+    add(data) {      
         this.data = data;
         this._index = 0;
         this._combine();

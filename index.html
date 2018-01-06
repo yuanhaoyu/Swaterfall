@@ -63,20 +63,18 @@
     let listDoms = [
         document.querySelector('.box1'),
         document.querySelector('.box2'),
-        document.querySelector('.box3')               
+        document.querySelector('.box3')
     ]
-    let templates = []
-    data.map((data) => {
-        let domText = `<div><img src="${data.src}"></img><p>${data.text}</p></div>`;
-        let temp = document.createElement('div');
-        temp.innerHTML = domText;
-        templates.push(temp.childNodes[0]);
-    })
+    let template = function (data) {
+        return `
+        <div><img src="${data.src}"></img><p>${data.text}</p></div>
+        `
+    }
     var swaterfall = new Swaterfall(
         data,
         {
             boxs: listDoms,
-            templates: templates
+            template: template
         }
     )
     swaterfall.init();
@@ -90,14 +88,7 @@
         {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863275&di=63092a21f68dc431fd95920db62f6bc4&imgtype=0&src=http%3A%2F%2Fimg4q.duitang.com%2Fuploads%2Fitem%2F201312%2F31%2F20131231210306_fEKia.thumb.700_0.jpeg',text: '13131'},
         {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863274&di=7f7c8db24c293b31a48687a655f9d802&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201505%2F12%2F20150512201040_ShvwU.thumb.700_0.jpeg',text: '131asdas31'}
         ]
-        let templates2 = []
-        data2.map((data) => {
-            let domText = `<div><img src="${data.src}"></img><p>${data.text}</p></div>`;
-            let temp = document.createElement('div');
-            temp.innerHTML = domText;
-            templates2.push(temp.childNodes[0]);
-        })
-        swaterfall.add(data2, templates2)
+        swaterfall.add(data2)
     }
 </script>
 </html>
