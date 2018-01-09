@@ -1,13 +1,15 @@
 class Swaterfall{
     constructor (config) {
-        this._version = 0.01;
+        this._version = 0.02;
         this._index = 0;
-        this.data = null;
+        this._allIndex = 0;
+        this.data = [];
         this.boxLists = config.boxs;
         this.template = config.template;    
     }
     _combine() {
-        if (this._index >= this.data.length) {
+        if (this._index >= this._allIndex) {
+            this._index --;
             return false;
         } else {
             let img = new Image();
@@ -38,8 +40,9 @@ class Swaterfall{
         // remember children childNode diff
     }
     add(data) {
-        this.data = data;
-        this._index = 0;
+        this.data = this.data.concat(data);
+        this._allIndex = this._allIndex + data.length;
+        this._index ++;
         this._combine();
     }
 }
