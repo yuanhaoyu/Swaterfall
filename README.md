@@ -3,7 +3,7 @@
 Swaterfall 是一款简单麻瓜的图片瀑布流插件,用固定列的方式实现瀑布流。(注意当前版本只适用于带图片的瀑布流)
 
 ## Version
-当前版本: 0.02
+当前版本: 0.03
 
 ## API
 1.	初始化
@@ -12,7 +12,9 @@ Swaterfall 是一款简单麻瓜的图片瀑布流插件,用固定列的方式�
 	      var swaterfall = new Swaterfall(
 	        {
 	            boxs: listDoms,
-	            template: template
+	            template: template,
+				srcKey: 'image_url',
+            	done: () => { console.log('hi~ done'); }
 	        }
 	    )
 	```
@@ -25,10 +27,14 @@ Swaterfall 是一款简单麻瓜的图片瀑布流插件,用固定列的方式�
 	```javascript
 		let template = function (data) {
 			return `
-			<div><img src="${data.src}"></img><p>${data.text}</p></div>
+			<div><img src="${data.image_url}"></img><p>${data.des}</p></div>
 			`
 		}
 	```
+
+	1.3 srcKey：是你data数组里面代表图片地址的键名，因为Swaterfall需要设置img的src，所以我们必须需要知道你json数组数据中代表图片地址的键名，若不设置则默认为src。
+	
+	1.4 done：为一个匿名函数，当每次add执行完成后会自动触发。
 
 
 2. add
@@ -36,9 +42,10 @@ Swaterfall 是一款简单麻瓜的图片瀑布流插件,用固定列的方式�
 	```javascript
 	swaterfall.add(data)
 	```
-	添加数据（**注意data是一个json数组并且其中必须有一项属性名叫src用来给Swaterfall设置图片**），然后Swaterfall会根据之前定义的模版循环data生成瀑布流。
+	添加数据（**注意data是一个json数组**），然后Swaterfall会根据之前定义的模版循环data生成瀑布流。
 
 ## How to use
+script标签引入swaterfall.js
 
 ```javasript
 <body>

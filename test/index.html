@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script src="../index.js"></script>
+    <title>Swaterfall - demo</title>
+    <script src="../swaterfall.js"></script>
     <style>
     .box1{
         width: 32%;
@@ -50,17 +50,19 @@
     <div class="add" onclick="add()">+</div>
 </body>
 <script>
-    let data = [
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147786043&di=ee375ee6fade5ee8b4cfa52919b36d1d&imgtype=0&src=http%3A%2F%2Fa3.topitme.com%2Fd%2F0e%2F80%2F1159203667c2f800edo.jpg',text: '13131'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147786043&di=6ab1478972c651846855950a2bb06de2&imgtype=0&src=http%3A%2F%2Fp1.qhimg.com%2Ft0157a1e29e2dbb4355.jpg',text: '13131'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147786041&di=c89d23d0d3c8600e4a8ea81a49813dd5&imgtype=0&src=http%3A%2F%2Fpic2.52pk.com%2Ffiles%2F141010%2F4444414_101142_7966.jpg',text: '13131'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863276&di=e40728d2b4d7fed42948da47deba1f58&imgtype=0&src=http%3A%2F%2Fi-7.vcimg.com%2Ftrim%2Fd127aa52a0e4ef6901e2f688a23d91fb1683885%2Ftrim.jpg',text: '131申诉31'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863275&di=63092a21f68dc431fd95920db62f6bc4&imgtype=0&src=http%3A%2F%2Fimg4q.duitang.com%2Fuploads%2Fitem%2F201312%2F31%2F20131231210306_fEKia.thumb.700_0.jpeg',text: '13131'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863274&di=4ec47427b867caab865a0c9dd653db7f&imgtype=0&src=http%3A%2F%2Fbbs.uuu9.com%2Fdata%2Fattachment%2Fforum%2F201507%2F27%2F070221c9ide0q069oq0v56.jpg',text: '13131'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863273&di=48d31979b83ebb20000939b92274013d&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fcefc1e178a82b90156431649748da9773812efda.jpg', text: '有点长长的测试'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863274&di=7f7c8db24c293b31a48687a655f9d802&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201505%2F12%2F20150512201040_ShvwU.thumb.700_0.jpeg',text: '131asdas31'},
-        {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515743177&di=352af5d1411183bec40a60242084af1e&imgtype=jpg&er=1&src=http%3A%2F%2Fi3.yeyou.itc.cn%2Fv3%2Fhuoying%2F2014%2F05%2F24%2F052418273068737881.jpg',text: '13131'}        
-    ]
+    let start = 0;
+    let size = 5
+    let url = `http://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;
+    function ajax (url, success) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('GET', url, true);
+        xmlhttp.send()
+        xmlhttp.onreadystatechange = function () {
+            if(xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+                success(JSON.parse(xmlhttp.responseText))
+            }
+          }
+    }    
     let listDoms = [
         document.querySelector('.box1'),
         document.querySelector('.box2'),
@@ -68,7 +70,7 @@
     ]
     let template = function (data) {
         return `
-        <div><img src="${data.src}"></img><p>${data.text}</p></div>
+        <div><img src="${data.image_url}"></img><p>${data.abs}</p></div>
         `
     }
 
@@ -76,24 +78,28 @@
     var swaterfall = new Swaterfall(
         {
             boxs: listDoms,
-            template: template
+            template: template,
+            srcKey: 'image_url',
+            done: () => { console.log('hi~ done'); }
         }
     )
 
     // 首次加载数据
-    swaterfall.add(data);
-
+    ajax(url, function(data) {
+        let arr = data.data;
+        arr.pop()
+        swaterfall.add(data.data);  
+    })
+ 
     // 添加
     function add () {
-        let data2 = [
-            {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147786043&di=ee375ee6fade5ee8b4cfa52919b36d1d&imgtype=0&src=http%3A%2F%2Fa3.topitme.com%2Fd%2F0e%2F80%2F1159203667c2f800edo.jpg',text: '13131'},
-            {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147786043&di=6ab1478972c651846855950a2bb06de2&imgtype=0&src=http%3A%2F%2Fp1.qhimg.com%2Ft0157a1e29e2dbb4355.jpg',text: '13131'},
-            {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147786041&di=c89d23d0d3c8600e4a8ea81a49813dd5&imgtype=0&src=http%3A%2F%2Fpic2.52pk.com%2Ffiles%2F141010%2F4444414_101142_7966.jpg',text: '13131'},
-            {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863276&di=e40728d2b4d7fed42948da47deba1f58&imgtype=0&src=http%3A%2F%2Fi-7.vcimg.com%2Ftrim%2Fd127aa52a0e4ef6901e2f688a23d91fb1683885%2Ftrim.jpg',text: '131申诉31'},
-            {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863275&di=63092a21f68dc431fd95920db62f6bc4&imgtype=0&src=http%3A%2F%2Fimg4q.duitang.com%2Fuploads%2Fitem%2F201312%2F31%2F20131231210306_fEKia.thumb.700_0.jpeg',text: '13131'},
-            {src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515147863274&di=7f7c8db24c293b31a48687a655f9d802&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201505%2F12%2F20150512201040_ShvwU.thumb.700_0.jpeg',text: '131asdas31'}
-        ]
-        swaterfall.add(data2);
+        start = start + 5;
+        let url = `http://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;        
+        ajax(url, function(data) {
+            let arr = data.data;
+            arr.pop()
+            swaterfall.add(data.data);          
+        })
     }
 </script>
 </html>
