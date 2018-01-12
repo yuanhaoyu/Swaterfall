@@ -52,7 +52,7 @@
 <script>
     let start = 0;
     let size = 5
-    let url = `https://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;
+    let url = `http://115.159.159.127:3000/imgtest/${start}/${size}`;
     function ajax (url, success) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', url, true);
@@ -94,7 +94,7 @@
     // 添加
     function add () {
         start = start + 5;
-        let url = `https://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;        
+        let url = `http://115.159.159.127:3000/imgtest/${start}/${size}`;        
         ajax(url, function(data) {
             let arr = data.data;
             arr.pop()
