@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-    <p class="title">点击右下角+号添加瀑布流数据</p>
+    <p class="title">点击右下角+号添加瀑布流数据,⚠️注意若图片无法显示，可能由于百度策略，请clone至本地执行</p>
     <div class="box1"></div>
     <div class="box2"></div>
     <div class="box3"></div>
@@ -52,7 +52,7 @@
 <script>
     let start = 0;
     let size = 5
-    let url = `http://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;
+    let url = `https://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;
     function ajax (url, success) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', url, true);
@@ -94,7 +94,7 @@
     // 添加
     function add () {
         start = start + 5;
-        let url = `http://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;        
+        let url = `https://image.baidu.com/channel/listjson?pn=${start}&rn=${size}&tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&ie=utf8`;        
         ajax(url, function(data) {
             let arr = data.data;
             arr.pop()
